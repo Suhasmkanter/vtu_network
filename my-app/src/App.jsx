@@ -34,19 +34,19 @@ function App() {
         <Route path='/success' element={<Successpage />} />
 
         {/* 🔐 Login/Register => Block if already logged in */}
-        <Route element={<Checkauth />}>
+        
           <Route path='/login' element={<LoginPage />} />
           <Route path='/register' element={<Register />} />
-        </Route>
+        
 
         {/* 🔐 Protected Routes */}
-        <Route element={<Checkauth />}>
+        
           <Route path='/profile' element={<Profile />} />
           <Route path='/notes' element={<NotesPage />} />
           <Route path='/previewpath/:id' element={<PDFPreviewPage />} />
           <Route path='/groupupload/:id' element={<PDFList />} />
           <Route path='/uploads' element={<PDFUploadDialog />} />
-        </Route>
+        
 
       </Routes>
     </div>

@@ -15,7 +15,7 @@ export default function LoginPage() {
     });
 
     const handleGoogleLogin = () => {
-        window.location.href = 'http://https://vtu-network.onrender.com/api/user/auth/google';
+        window.location.href = 'https://vtu-network.onrender.com/api/user/auth/google';
     };
 
     const handleInputChange = (e) => {

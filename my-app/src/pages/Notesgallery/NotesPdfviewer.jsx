@@ -29,7 +29,7 @@ export default function NotesPage() {
             subject: filters.subject || ''
         })
         async function fetchthedata() {
-            let response = await fetch(`http://https://vtu-network.onrender.com/api/user/fetchPdfs?${query}`)
+            let response = await fetch(`https://vtu-network.onrender.com/api/user/fetchPdfs?${query}`)
             let data = await response.json()
 
             if (data) {
