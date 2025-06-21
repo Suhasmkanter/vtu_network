@@ -178,7 +178,7 @@ export default function PDFPreviewPage() {
                     totalReview: 1
                 }
 
-                let response = await fetch('http://https://vtu-network.onrender.com/api/user/reviewEdit', {
+                let response = await fetch('https://vtu-network.onrender.com/api/user/reviewEdit', {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload),
