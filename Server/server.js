@@ -13,10 +13,10 @@ require('./auth/google'); // Google OAuth strategy setup
 connectDB(); //Database connection 
 
 
-const PORT = 8080;
+const PORT = process.env.PORT || 8080;
 const app = express();
 app.use(cors({
-    origin:'https://vtu-network.vercel.app',
+    origin: 'https://vtu-network.vercel.app',
     credentials: true
 }))
 // Body parsers
@@ -33,7 +33,7 @@ app.use(session({
         mongoUrl: process.env.MONGO_URL, // MongoDB connection string
         ttl: 14 * 24 * 60 * 60 // session expiration (14 days)
     }),
-    cookie: { secure: false, maxAge: 24 * 60 * 60 * 1000 }
+    cookie: { secure: true, sameSite: 'none', maxAge: 24 * 60 * 60 * 1000 }
 
 }));
 // Initialize passport
