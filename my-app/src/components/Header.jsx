@@ -38,7 +38,7 @@ function Header() {
   const toggleSidebar = () => setIsOpen(!isOpen)
   const navigate = useNavigate()
   function handleLogout() {
-    fetch("http://https://vtu-network.onrender.com/api/user/logout", {
+    fetch("https://vtu-network.onrender.com/api/user/logout", {
       method: "GET",
       credentials: "include", // ⬅️ Needed to send cookies!
     })
