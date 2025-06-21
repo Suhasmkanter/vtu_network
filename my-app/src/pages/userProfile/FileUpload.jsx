@@ -117,7 +117,7 @@ export default function FileUpload() {
                     description: "Sending file metadata to server...",
                 });
 
-                let response = await fetch('http://localhost:8080/api/user/metaUploads', {
+                let response = await fetch('http://https://vtu-network.onrender.com/api/user/metaUploads', {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({

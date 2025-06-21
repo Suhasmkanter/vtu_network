@@ -67,7 +67,7 @@ export default function PDFPreviewPage() {
     const [pdfs, setpdfs] = useState(null)
     useEffect(() => {
         async function fetchPdfs() {
-            let response = await fetch('http://localhost:8080/api/user/fetchPdfs')
+            let response = await fetch('http://https://vtu-network.onrender.com/api/user/fetchPdfs')
             let data = await response.json()
             if (data) {
                 setadditionalNotes(data.data)
@@ -80,7 +80,7 @@ export default function PDFPreviewPage() {
         async function fetchPdf() {
             if (id) {
                 try {
-                    let response = await fetch('http://localhost:8080/api/user/fetchPdf/' + id)
+                    let response = await fetch('http://https://vtu-network.onrender.com/api/user/fetchPdf/' + id)
                     let data = await response.json()
                     if (data) {
                         setpdfs(data.data[0])
@@ -95,7 +95,7 @@ export default function PDFPreviewPage() {
     useEffect(() => {
         async function fetchreviews() {
             if (id) {
-                let reviews = await fetch('http://localhost:8080/api/user/fetchReview/' + id)
+                let reviews = await fetch('http://https://vtu-network.onrender.com/api/user/fetchReview/' + id)
                 let reviewData = await reviews.json()
                 if (reviewData) {
                     setReviews(reviewData?.data)
@@ -135,7 +135,7 @@ export default function PDFPreviewPage() {
     }
     async function handleOnDelete(id) {
         try {
-            let response = await fetch('http://localhost:8080/api/user/deleteReview/' + id, {
+            let response = await fetch('http://https://vtu-network.onrender.com/api/user/deleteReview/' + id, {
                 method: 'DELETE'
             })
             let data = await response.json()
@@ -178,7 +178,7 @@ export default function PDFPreviewPage() {
                     totalReview: 1
                 }
 
-                let response = await fetch('http://localhost:8080/api/user/reviewEdit', {
+                let response = await fetch('http://https://vtu-network.onrender.com/api/user/reviewEdit', {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload),
@@ -223,7 +223,7 @@ export default function PDFPreviewPage() {
                 rating: userRating,
             }
             try {
-                let response = await fetch('http://localhost:8080/api/user/reviews', {
+                let response = await fetch('http://https://vtu-network.onrender.com/api/user/reviews', {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(newReview),
