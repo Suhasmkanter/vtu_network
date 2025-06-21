@@ -37,6 +37,7 @@ export const registerForm = createAsyncThunk('Authregister', async (formdata) =>
             headers: {
                 "Content-Type": "application/json"
             },
+            credentials: "include",
             body: JSON.stringify(formdata)
         })
         let data = await response.json()
