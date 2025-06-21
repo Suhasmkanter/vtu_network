@@ -13,7 +13,7 @@ export default function PDFList() {
     useEffect(() => {
         const fetchPDFs = async () => {
             try {
-                let response = await fetch('http://https://vtu-network.onrender.com/api/user/fetchpdf/' + id.id);
+                let response = await fetch('https://vtu-network.onrender.com/api/user/fetchpdf/' + id.id);
                 let { data } = await response.json();
                 if (data) {
                     console.log(data);

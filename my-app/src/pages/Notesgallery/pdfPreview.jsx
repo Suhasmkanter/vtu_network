@@ -67,7 +67,7 @@ export default function PDFPreviewPage() {
     const [pdfs, setpdfs] = useState(null)
     useEffect(() => {
         async function fetchPdfs() {
-            let response = await fetch('http://https://vtu-network.onrender.com/api/user/fetchPdfs')
+            let response = await fetch('https://vtu-network.onrender.com/api/user/fetchPdfs')
             let data = await response.json()
             if (data) {
                 setadditionalNotes(data.data)

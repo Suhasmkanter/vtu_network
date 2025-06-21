@@ -3,7 +3,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 export const fetchUserPdfs = createAsyncThunk('fetchuserPdfs', async () => {
     try {
-        let response = await fetch('http://https://vtu-network.onrender.com/api/user/fetchPdfs')
+        let response = await fetch('https://vtu-network.onrender.com/api/user/fetchPdfs')
         let data = await response.json()
         console.log(data)
 
