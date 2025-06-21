@@ -6,7 +6,12 @@ const authMiddleware = (req, res, next) => {
         req.userInfo = req.user
         return next();
     }
-    const authToken = req.cookies['userToken'];
+    const authToken = req.cookie('userToken', token , {
+        httpOnly:true,
+        secure:true,
+        sameSite: 'None',           // Must be 'None' for cross-site cookies
+    maxAge: 50 * 24 * 60 * 60 * 1000
+    });
     if (!authToken) {
         return res.status(401).json({
             message: "Access denied. No token provided. Please login to continue.",
