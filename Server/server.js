@@ -16,7 +16,8 @@ connectDB(); //Database connection
 const PORT = process.env.PORT || 8080;
 const app = express();
 app.use(cors({
-    origin: 'https://vtu-network.vercel.app',
+    origin: ['https://vtu-network.vercel.app', 'http://localhost:5173'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true
 }))
 // Body parsers
