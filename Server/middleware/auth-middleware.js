@@ -1,91 +1,67 @@
 const jwt = require('jsonwebtoken');
 
 const authMiddleware = (req, res, next) => {
-    // ---- 1. Check for Passport.js authentication (if used) ----
-    // This line suggests you might be using Passport.js.
-    // If Passport.js has already authenticated the request, 'req.user' will be populated.
-    // However, 'req.isAuthenticated' is a method added by Passport.js,
-    // so ensure it's available before calling it.
+    // 1. Check if authenticated via Passport.js (optional)
     if (typeof req.isAuthenticated === 'function' && req.isAuthenticated()) {
-        req.userInfo = req.user; // Use 'req.user' which Passport populates
-        console.log("User authenticated via Passport.js:", req.userInfo); // For debugging
+        req.userInfo = req.user;
+        console.log("✅ Authenticated via Passport.js:", req.userInfo);
         return next();
     }
 
-    // ---- 2. Extract token from cookies ----
-    // Ensure you have 'cookie-parser' middleware set up in your main Express app
-    const authToken = req.cookies && req.cookies['userToken']; // Safely access cookies
+    // 2. Try getting JWT from cookies
+    const cookieToken = req.cookies && req.cookies['userToken'];
 
-    if (!authToken) {
-        // If no token in cookies, try checking Authorization header as a fallback/alternative
-        // This is a common practice for APIs, especially when not relying solely on cookies
-        const authHeader = req.headers.authorization;
+    // 3. If no cookie token, try Authorization header (Bearer)
+    let token = cookieToken;
+    if (!token) {
+        const authHeader = req.headers['authorization'];
         if (authHeader && authHeader.startsWith('Bearer ')) {
-            const bearerToken = authHeader.split(' ')[1];
-            if (bearerToken) {
-                // If token found in header, use it instead of trying to send a 401 now
-                // Proceed to try-catch block with this bearerToken
-                // We'll rename authToken for clarity here
-                req.authTokenSource = 'header'; // For debugging if needed
-                return processToken(bearerToken, req, res, next);
-            }
+            token = authHeader.split(' ')[1];
+            req.authTokenSource = 'header';
         }
+    } else {
+        req.authTokenSource = 'cookie';
+    }
 
-        // If no token in cookies AND no valid bearer token in header
+    // 4. If still no token, deny access
+    if (!token) {
         return res.status(401).json({
-            message: "Access denied. No token provided. Please login to continue.",
+            message: "❌ Access denied. No token provided.",
             success: false,
             isAuthenticated: false
         });
     }
 
-    // If authToken was found in cookies, process it
-    req.authTokenSource = 'cookie'; // For debugging if needed
-    processToken(authToken, req, res, next);
-};
+    // 5. Check if JWT secret key exists
+    if (!process.env.JWT_SECRET_KEY) {
+        console.error("❌ Missing JWT_SECRET_KEY in environment variables.");
+        return res.status(500).json({
+            message: "Internal server error: JWT secret not configured.",
+            success: false
+        });
+    }
 
-// Helper function to encapsulate token verification logic
-const processToken = (token, req, res, next) => {
+    // 6. Try verifying the token
     try {
-        // Ensure process.env.JWT_SECRET_KEY is defined in your environment
-        // and accessible in your Node.js application (e.g., using 'dotenv' package)
-        if (!process.env.JWT_SECRET_KEY) {
-            console.error('JWT_SECRET_KEY is not defined in environment variables.');
-            return res.status(500).json({
-                message: "Server error: JWT secret not configured.",
-                success: false
-            });
-        }
-
-        const decodedToken = jwt.verify(token, process.env.JWT_SECRET_KEY);
-
-        // ---- 3. Attach decoded user info to request object ----
-        // Use a consistent property name for user data, e.g., 'req.user' or 'req.loggedInUser'
-        // 'req.userName' and 'req.userData' are fine, but 'req.user' is common convention.
-        req.user = decodedToken; // Assign the entire decoded payload
-        // If you specifically need username:
-        req.userName = decodedToken.username; // Assuming 'username' is in your token payload
-
-        console.log("Token successfully verified. User:", req.user); // For debugging
-
-        next(); // Proceed to the next middleware or route handler
-
+        const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
+        req.user = decoded; // Attach user info to request
+        req.userName = decoded.username;
+        console.log("✅ JWT verified. User:", decoded);
+        next();
     } catch (error) {
-        // ---- 4. Handle JWT verification errors ----
-        console.error("JWT verification error:", error.message); // Log the specific error
+        console.error("❌ JWT Error:", error.message);
 
-        let errorMessage = "Access denied. Invalid or expired token. Please login again.";
-        // You can add more specific messages based on error type if needed
+        let message = "Access denied. Invalid or expired token.";
         if (error.name === 'TokenExpiredError') {
-            errorMessage = "Access denied. Your session has expired. Please log in again.";
+            message = "Session expired. Please log in again.";
         } else if (error.name === 'JsonWebTokenError') {
-            errorMessage = "Access denied. Invalid token. Please log in again.";
+            message = "Invalid token. Please log in again.";
         }
 
         return res.status(401).json({
-            message: errorMessage,
+            message,
             success: false,
-            isAuthenticated: false // Explicitly state not authenticated
+            isAuthenticated: false
         });
     }
 };
