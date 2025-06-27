@@ -14,6 +14,7 @@ passport.use(new GoogleStrategy({
     if (data) {
         done(null, profile)
     } else {
+        console.log
         try {
             let response = await User.create({
                 username: profile.displayName,
