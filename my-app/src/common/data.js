@@ -110,11 +110,7 @@ export const subjectCodeMap = {
     ece: {
         "Sem 1": {
             "Physics": "PHY110",
-            "Maths": "MTH110"
+            "Maths": "MTH110",
         }
     }
 };
-
-
-
-asdfsafasfdasf

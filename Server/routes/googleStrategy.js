@@ -11,7 +11,7 @@ router.get('/auth/google',
 router.get('/auth/google/callback',
     passport.authenticate('google', {
         failureRedirect: '/login-failed',
-        successRedirect: 'https://vtu-network.onrender.com/api/user/register',
+        successRedirect: 'https://vtu-network.vercel.app/',
     })
 );
 
