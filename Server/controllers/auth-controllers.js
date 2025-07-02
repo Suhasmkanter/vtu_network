@@ -21,6 +21,7 @@ const registerUser = async (req, res) => {
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
 
+
         const newlyCreatedUser = new User({
             username,
             email,
@@ -28,6 +29,7 @@ const registerUser = async (req, res) => {
             role: role || 'user'
         });
         await newlyCreatedUser.save();
+        console.log(newlyCreatedUser)
         if (newlyCreatedUser) {
             res.status(201).json({
                 message: "User registered successfully",
