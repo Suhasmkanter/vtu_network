@@ -35,6 +35,7 @@ import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 function Header() {
   const [isOpen, setIsOpen] = useState(false)
   const user = useSelector(state => state.Authproject)
+  console.log(user)
   const toggleSidebar = () => setIsOpen(!isOpen)
   const navigate = useNavigate()
   function handleLogout() {
@@ -111,9 +112,9 @@ function Header() {
                 <DropdownMenuContent className="w-56 relative bg-gray-800 text-white left-[-50px]">
                   <DropdownMenuLabel>My Account</DropdownMenuLabel>
                   <DropdownMenuGroup>
-                    {/* <DropdownMenuItem onClick={() => navigate('/profile')}>
+                    <DropdownMenuItem onClick={() => navigate('/profile')}>
                       Profile
-                    </DropdownMenuItem> */}
+                    </DropdownMenuItem>
 
                   </DropdownMenuGroup>
 
