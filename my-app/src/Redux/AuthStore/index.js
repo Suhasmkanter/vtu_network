@@ -10,7 +10,7 @@ export const loginForm = createAsyncThunk('AuthLogin', async (formdata) => {
 
     try {
         console.log(formdata)
-        let response = await fetch('https://vtu-network.onrender.com/api/user/login', {
+        let response = await fetch('https://vtu-network12.onrender.com/api/user/login', {
             method: 'POST',
             headers: {
                 "Content-Type": 'application/json'
@@ -32,7 +32,7 @@ export const registerForm = createAsyncThunk('Authregister', async (formdata) =>
 
     try {
         console.log(formdata)
-        let response = await fetch('https://vtu-network.onrender.com/api/user/register', {
+        let response = await fetch('https://vtu-network12.onrender.com/api/user/register', {
             method: 'POST',
             headers: {
                 "Content-Type": "application/json"
@@ -51,7 +51,7 @@ export const registerForm = createAsyncThunk('Authregister', async (formdata) =>
 
 export const AuthMiddleWare = createAsyncThunk('Authmiddleware', async () => {
     try {
-        let response = await fetch('https://vtu-network.onrender.com/api/user/authMiddle', {
+        let response = await fetch('https://vtu-network12.onrender.com/api/user/authMiddle', {
             credentials: 'include',
         })
         let data = await response.json()
