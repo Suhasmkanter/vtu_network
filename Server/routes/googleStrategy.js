@@ -1,18 +1,21 @@
-const e = require('express')
-const router = e.Router()
+const router = require('express').Router();
 const passport = require('passport');
 
-
 router.get('/auth/google',
-    passport.authenticate('google', { scope: ['profile', 'email'], prompt: 'consent' })
+    passport.authenticate('google', { scope: ['profile', 'email'] })
 );
 
-// Google Auth Callback
 router.get('/auth/google/callback',
     passport.authenticate('google', {
-        failureRedirect: '/login-failed',
-        successRedirect: 'https://vtu-network.vercel.app/',
+        failureRedirect: 'https://vtu-network.vercel.app/login',
+        successRedirect: 'https://vtu-network.vercel.app'
     })
 );
 
-module.exports = router
+router.get('/logout', (req, res) => {
+    req.logout(() => {
+        res.send('Logged out');
+    });
+});
+
+module.exports = router;

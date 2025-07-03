@@ -1,4 +1,4 @@
-const { configDotenv, config } = require('dotenv');
+const { config } = require('dotenv');
 const mongoose = require('mongoose');
 config()
 const connectToDB = async () => {

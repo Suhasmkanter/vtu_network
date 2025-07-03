@@ -34,7 +34,7 @@ app.use(session({
         mongoUrl: process.env.MONGO_URL, // MongoDB connection string
         ttl: 14 * 24 * 60 * 60 // session expiration (14 days)
     }),
-    cookie: { secure: true, sameSite: 'none', maxAge: 24 * 60 * 60 * 1000 }
+    cookie: { secure: true, sameSite: 'lax', maxAge: 24 * 60 * 60 * 1000 }
 
 }));
 // Initialize passport
@@ -53,6 +53,7 @@ app.use('/api/user', AuthRoute)
 app.use('/api/user', googleStrategy)
 app.use('/api/user', fileuploadRoute)
 app.use('/api/user', reviewRoute)
+
 
 
 // Start server

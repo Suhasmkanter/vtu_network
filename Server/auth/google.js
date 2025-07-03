@@ -12,9 +12,8 @@ passport.use(new GoogleStrategy({
 
     let data = await User.findOne({ email: profile.emails[0].value })
     if (data) {
-        done(null, profile)
+        done(null, data)
     } else {
-        console.log
         try {
             let response = await User.create({
                 username: profile.displayName,
@@ -25,7 +24,7 @@ passport.use(new GoogleStrategy({
 
             })
             const data = await response.save()
-            return done(null, profile);
+            return done(null, data);
 
         } catch (error) {
             console.log(error)
@@ -36,7 +35,7 @@ passport.use(new GoogleStrategy({
 
 passport.serializeUser((user, done) => {
     console.log('Uservalues', user)
-    done(null, user._json.email);
+    done(null, user.email);
 });
 
 passport.deserializeUser(async (email, done) => {

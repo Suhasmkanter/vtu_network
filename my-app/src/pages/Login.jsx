@@ -28,6 +28,7 @@ export default function LoginPage() {
     const handleFormSubmit = async (e) => {
         e.preventDefault();
         dispatch(loginForm(login)).then((result) => {
+            console.log(result.payload)
             if (result.payload.success) {
                 window.location.reload()
                 navigate('/')

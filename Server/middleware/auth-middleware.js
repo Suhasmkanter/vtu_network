@@ -1,7 +1,10 @@
 const jwt = require('jsonwebtoken');
 
 const authMiddleware = (req, res, next) => {
-    // 1. Check if authenticated via Passport.js (optional)
+    // 1. Check if authenticated via Passport.js (optional)a
+
+
+    console.log(req.isAuthenticated())
     if (typeof req.isAuthenticated === 'function' && req.isAuthenticated()) {
         req.userInfo = req.user;
         console.log("✅ Authenticated via Passport.js:", req.userInfo);
@@ -13,6 +16,7 @@ const authMiddleware = (req, res, next) => {
 
     // 3. If no cookie token, try Authorization header (Bearer)
     let token = cookieToken;
+    console.log(token)
     if (!token) {
         const authHeader = req.headers['authorization'];
         if (authHeader && authHeader.startsWith('Bearer ')) {

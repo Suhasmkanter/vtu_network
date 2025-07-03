@@ -3,14 +3,14 @@ const initialState = {
     user: null,
     isLoading: false,
     isAuthenticated: null,
-    userLogin: null
+    userName: null
 }
 
 export const loginForm = createAsyncThunk('AuthLogin', async (formdata) => {
 
     try {
         console.log(formdata)
-        let response = await fetch('https://vtu-network12.onrender.com/api/user/login', {
+        let response = await fetch('https://vtu-network.onrender.com/api/user/login', {
             method: 'POST',
             headers: {
                 "Content-Type": 'application/json'
@@ -32,7 +32,7 @@ export const registerForm = createAsyncThunk('Authregister', async (formdata) =>
 
     try {
         console.log(formdata)
-        let response = await fetch('https://vtu-network12.onrender.com/api/user/register', {
+        let response = await fetch('https://vtu-network.onrender.com/api/user/register', {
             method: 'POST',
             headers: {
                 "Content-Type": "application/json"
@@ -51,10 +51,11 @@ export const registerForm = createAsyncThunk('Authregister', async (formdata) =>
 
 export const AuthMiddleWare = createAsyncThunk('Authmiddleware', async () => {
     try {
-        let response = await fetch('https://vtu-network12.onrender.com/api/user/authMiddle', {
+        let response = await fetch('https://vtu-network.onrender.com/api/user/authMiddle', {
             credentials: 'include',
         })
         let data = await response.json()
+        console.log(data)
         return data
     } catch (error) {
 
@@ -77,13 +78,14 @@ const AuthSlices = createSlice({
         }).addCase(AuthMiddleWare.pending, (state, action) => {
             state.isLoading = true
         }).addCase(AuthMiddleWare.fulfilled, (state, action) => {
-            if (action.payload) {
+            if (action.payload.success) {
+                console.log(action.payload)
                 state.isLoading = false
                 state.isAuthenticated = action.payload.isAuthenticated
                 console.log(state.isAuthenticated)
                 localStorage.setItem('login', state.isAuthenticated)
                 state.user = action.payload.user
-                state.userLogin = action.payload.userLogin
+                state.userName = action.payload.userName
             }
         }).addCase(AuthMiddleWare.rejected, (state, action) => {
             state.isAuthenticated = action.payload.isAuthenticated

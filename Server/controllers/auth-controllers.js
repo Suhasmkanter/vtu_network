@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 
 
 const registerUser = async (req, res) => {
+    console.log(req.body)
     try {
         const { username, email, password, role } = req.body; // Ensure req.body contains the expected fields
         if (!username || !password) {
@@ -29,7 +30,7 @@ const registerUser = async (req, res) => {
             role: role || 'user'
         });
         await newlyCreatedUser.save();
-        console.log(newlyCreatedUser)
+        console.log(newlyCreatedUser, 'hello bro ')
         if (newlyCreatedUser) {
             res.status(201).json({
                 message: "User registered successfully",
@@ -74,8 +75,9 @@ const loginuser = async (req, res) => {
             maxAge: 24 * 60 * 60 * 1000,
             httpOnly: true
         })
+        console.log(user, 'the user data bro ')
 
-        res.status(200).json({
+        res.status(202).json({
             success: true,
             message: "User logged in successfully",
             status: 200,
